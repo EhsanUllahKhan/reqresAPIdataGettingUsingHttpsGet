@@ -7,18 +7,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res) => {
     https.get('https://reqres.in/api/users?page=2', (res) => {
-        console.log('statusCode:', res.statusCode);
-        console.log('headers:', res.headers);
-
+        // console.log('statusCode:', res.statusCode);
+        // console.log('headers:', res.headers);
+        // console.log(res)
         res.on('data', (d) => {
-            process.stdout.write(d);
+            const buf = Buffer.from(d);
+            console.log(buf.toString('utf8'))
+            res.send(`<sicz>`)
+            // res.json((d));
         });
 
     }).on('error', (e) => {
         console.error(e);
     });
 
-    res.send("<h1>ReqRes get API</h1>")
+    // res.send("<h1>ReqRes get API</h1>")
 })
 
 app.get("/user/:id", (req, res) => {
