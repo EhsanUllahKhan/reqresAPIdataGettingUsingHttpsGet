@@ -32,13 +32,26 @@ app.get("/", (req, res) => {
 
 
 
+
+
+
+app.get("/user/unknown", (req, res) => {
+    var url = "https://reqres.in/api/cupcakes";
+    request(url, function (error, response, body) {
+        var data = JSON.parse(body)
+        res.send(data)
+    });
+})
+
+
+
 app.get("/user/:id", (req, res) => {
     const accountId = Number(req.params.id);
     //console.log(accountId)
     var url = 'https://reqres.in/api/users/' + accountId;
     request(url, function (error, response, body) {
         var data = JSON.parse(body)
-        console.log(data)
+        // console.log(data)
         res.send(data)
     });
     // //console.log(url);
@@ -56,8 +69,20 @@ app.get("/user/:id", (req, res) => {
     // });
 
     //res.send('id: ' + accountId)
+    console.log(accountId)
 })
 
+
+
+app.get("/user/unknown/:id", (req, res) => {
+    const accountId = Number(req.params.id);
+    //console.log(accountId)
+    var url = "https://reqres.in/api/unknown/" + accountId;
+    request(url, function (error, response, body) {
+        var data = JSON.parse(body)
+        res.send(data)
+    });
+})
 
 app.listen(3000, () => {
     console.log("\tServer Listening at port 3000\t");
