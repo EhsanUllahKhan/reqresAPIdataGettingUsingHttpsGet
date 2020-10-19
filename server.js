@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const app = express();
 const https = require('https');
 const { Body } = require("node-fetch");
+const request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
     // res.send("<h1>ReqRes get API</h1>")
     // console.log("Data is ", data);
 
-    const request = require('request');
+
     request('https://reqres.in/api/users?page=2', function (error, response, body) {
         var data = JSON.parse(body)
         res.send(data["data"])
@@ -35,21 +36,26 @@ app.get("/user/:id", (req, res) => {
     const accountId = Number(req.params.id);
     //console.log(accountId)
     var url = 'https://reqres.in/api/users/' + accountId;
-    //console.log(url);
-
-    https.get(url, (res) => {
-        console.log('statusCode:', res.statusCode);
-        console.log('headers:', res.headers);
-
-        res.on('data', (d) => {
-            process.stdout.write(String(d));
-        });
-
-    }).on('error', (e) => {
-        console.error(e);
+    request(url, function (error, response, body) {
+        var data = JSON.parse(body)
+        console.log(data)
+        res.send(data)
     });
+    // //console.log(url);
 
-    res.send('id: ' + accountId)
+    // https.get(url, (res) => {
+    //     console.log('statusCode:', res.statusCode);
+    //     console.log('headers:', res.headers);
+
+    //     res.on('data', (d) => {
+    //         process.stdout.write(String(d));
+    //     });
+
+    // }).on('error', (e) => {
+    //     console.error(e);
+    // });
+
+    //res.send('id: ' + accountId)
 })
 
 
